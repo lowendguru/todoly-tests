@@ -15,14 +15,14 @@ import utils.RandomValueGenerator;
 
 public class CreateUserTest extends BaseTest {
 
-	@BeforeTest
+	@BeforeTest(groups = { "user" })
 	public void setUp() {
 		RestAssured.baseURI = BASE_URL;
 		RestAssured.basePath = USER_ENDPOINT + JSON_FORMAT;
 
 	}
 
-	@Test
+	@Test(groups = { "user" })
 	public void createUserBasic() {
 
 		given()

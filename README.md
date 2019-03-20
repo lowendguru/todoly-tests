@@ -21,19 +21,16 @@ This is a maven project, so the test suite can be executed via command line.
 ```
     $mvn clean test
 ```
-This will run all the tests.
+This will run all the tests according to the test suite structure defined in the testng.xml file.
 
 ### Test reports
  Results will be available in the /test-output/${timestamp} folder. Every execution creates a new /${timestamp} subfolder. This way all previous executions are saved for future reference.
 
 
-
-
 ### Structure
-#### Page Object classes
-The classes in the "pageObjects" package provide access to the WebElements necessary to interact with all the pages in the web app. This abstraction layer allows for easy code maintenance in the case of changes in the UI. 
+
 #### Test classes
-The test classes located under the "tests" package hold the test cases that verify the expected behavior of the application. All tests extend the BaseTest class, thus allowing its methods to be reusable and maintainable.
+All tests extend the BaseTest class, thus allowing its methods to be reusable and maintainable.
 #### Utils classes
 The classes under the "utils" package are auxiliary classes with reusable code.
 #### Properties file

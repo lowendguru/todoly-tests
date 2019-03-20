@@ -2,18 +2,19 @@
 <suite name="Todo.ly Test Suite">
 
 
+	<test name="User Tests">
+		<groups>
+			<run>
+				<include name="user" />
+			</run>
+		</groups>
 
 
 
-
-
-	<test name="CreateUserTest">
 		<classes>
 			<class name="userTests.CreateUserTest" />
 		</classes>
 	</test>
-
-
 
 
 
