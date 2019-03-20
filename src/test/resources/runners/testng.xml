@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Todo.ly Test Suite">
+
+
+
+
+
+
+
+	<test name="CreateUserTest">
+		<classes>
+			<class name="userTests.CreateUserTest" />
+		</classes>
+	</test>
+
+
+
+
+
+</suite>
