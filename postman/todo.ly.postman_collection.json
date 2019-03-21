@@ -1,0 +1,727 @@
+{
+	"info": {
+		"_postman_id": "04a6356c-5431-4e6e-bc03-4ac473a590d5",
+		"name": "todo.ly",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User - Create Basic",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8dbe7e5c-0915-4645-8594-90b4777f3dfe",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"<FullName>Foo Bar</FullName>\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<UserObject>\n    <Email>{{$guid}}@mail.com</Email>\n    <FullName>Foo Bar</FullName>\n    <Password>testpass</Password>\n</UserObject>"
+				},
+				"url": {
+					"raw": "{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}",
+					"host": [
+						"{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}"
+					]
+				},
+				"description": "Create user"
+			},
+			"response": []
+		},
+		{
+			"name": "User - Create Existing email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "89048395-42d7-4c27-a95d-f0dde6796da5",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"already exists\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/xml"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<UserObject>\n    <Email>user05@mail.com</Email>\n    <FullName>Foo Bar</FullName>\n    <Password>testpass</Password>\n    <DefaultProjectId>3779849</DefaultProjectId>\n</UserObject>"
+				},
+				"url": {
+					"raw": "{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}",
+					"host": [
+						"{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}"
+					]
+				},
+				"description": "Create user"
+			},
+			"response": []
+		},
+		{
+			"name": "User - Create invalid long name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fb19f34e-bc2e-4b46-9bfb-eb4cb46e03b0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"302\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<UserObject>\n    <Email>{{$guid}}@mail.com</Email>\n    <FullName>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</FullName>\n    <Password>testpass</Password>\n</UserObject>"
+				},
+				"url": {
+					"raw": "{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}",
+					"host": [
+						"{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}"
+					]
+				},
+				"description": "Create user"
+			},
+			"response": []
+		},
+		{
+			"name": "User - Create invalid empty name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1e1cfcdd-1857-4823-8035-5f85e6e246a8",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"306\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<UserObject>\n    <Email>{{$guid}}@mail.com</Email>\n    <FullName></FullName>\n    <Password>testpass</Password>\n</UserObject>"
+				},
+				"url": {
+					"raw": "{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}",
+					"host": [
+						"{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}"
+					]
+				},
+				"description": "Create user"
+			},
+			"response": []
+		},
+		{
+			"name": "User - Create invalid missing name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ff55fbb-f822-48d2-9695-7506be69d93e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"306\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<UserObject>\n    <Email>{{$guid}}@mail.com</Email>\n  \n    <Password>testpass</Password>\n</UserObject>"
+				},
+				"url": {
+					"raw": "{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}",
+					"host": [
+						"{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}"
+					]
+				},
+				"description": "Create user"
+			},
+			"response": []
+		},
+		{
+			"name": "Projects - All - not authenticated",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				},
+				"description": "Get projects"
+			},
+			"response": []
+		},
+		{
+			"name": "Projects - All - basic auth valid credentials",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "testpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "test_user_1@mail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/projects.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"projects.xml"
+					]
+				},
+				"description": "Get projects"
+			},
+			"response": []
+		},
+		{
+			"name": "Projects - All - invalid credentials password",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "test_user_1@mail.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/projects.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"projects.xml"
+					]
+				},
+				"description": "Get projects"
+			},
+			"response": []
+		},
+		{
+			"name": "Projects - All - invalid credentials username",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "non_existent_user@mail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "testpass",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/projects.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"projects.xml"
+					]
+				},
+				"description": "Get projects"
+			},
+			"response": []
+		},
+		{
+			"name": "Authentication - Get token",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "test_user_1@mail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "testpass",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/authentication/token.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"authentication",
+						"token.xml"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Projects - All - token auth valid credentials",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "5742a0ad04e24674bb459f01256348c1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/projects.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"projects.xml"
+					]
+				},
+				"description": "Get projects"
+			},
+			"response": []
+		},
+		{
+			"name": "Authentication - IsAuthenticated valid",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "5742a0ad04e24674bb459f01256348c1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/authentication/isauthenticated.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"authentication",
+						"isauthenticated.xml"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authentication - IsAuthenticated invalid",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "someInvalidToken",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/authentication/isauthenticated.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"authentication",
+						"isauthenticated.xml"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authentication - Delete token authorized",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Token",
+						"type": "text",
+						"value": "5742a0ad04e24674bb459f01256348c1"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/authentication/token.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"authentication",
+						"token.xml"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authentication - IsAuthenticated deleted token",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "5742a0ad04e24674bb459f01256348c1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/authentication/isauthenticated.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"authentication",
+						"isauthenticated.xml"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Projects - All - token deleted",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "5742a0ad04e24674bb459f01256348c1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/projects.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"projects.xml"
+					]
+				},
+				"description": "Get projects"
+			},
+			"response": []
+		},
+		{
+			"name": "User - Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/xml",
+						"type": "text"
+					},
+					{
+						"key": "Token",
+						"value": "2e781194e7d04cdbb3496a9f33cbccbe",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<UserObject>\r\n  \r\n\r\n</UserObject>"
+				},
+				"url": {
+					"raw": "https://todo.ly/api/user/633067.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"user",
+						"633067.xml"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User - Get user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "2e781194e7d04cdbb3496a9f33cbccbe",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/user.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"user.xml"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Project - by id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "e5eb4bfd237c4d3fa779074c727d3e42",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/projects/3779831.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"projects",
+						"3779831.xml"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Project - by id Copy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "e5eb4bfd237c4d3fa779074c727d3e42",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://todo.ly/api/projects/3779831.xml",
+					"protocol": "https",
+					"host": [
+						"todo",
+						"ly"
+					],
+					"path": [
+						"api",
+						"projects",
+						"3779831.xml"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

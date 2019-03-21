@@ -1,4 +1,4 @@
-package utils;
+package data;
 
 import java.util.HashMap;
 
@@ -19,6 +19,18 @@ public class UserBody extends HashMap<String, String> {
 	public UserBody withPassword(String password) {
 		this.put("Password", password);
 		return this;
+	}
+	
+	public String getEmail() {
+		return get("Email");
+	}
+	
+	public String getFullName() {
+		return get("FullName");
+	}
+	
+	public String getPassword() {
+		return get("Password");
 	}
 
 }

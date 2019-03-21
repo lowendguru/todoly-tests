@@ -7,7 +7,8 @@ import java.util.Calendar;
 import java.util.Map;
 import java.util.Random;
 
-import userTests.BaseTest;
+import apiTests.common.BaseTest;
+import data.UserBody;
 
 public class RandomValueGenerator {
 
@@ -21,6 +22,17 @@ public class RandomValueGenerator {
 				.withEmail(email)
 				.withFullName(firstName + " " + lastName)
 				.withPassword(BaseTest.PASSWORD);
+	}
+
+	public static String getRandomSentence(int numberOfWords) {
+		StringBuilder buffer = new StringBuilder();
+		for (int i = 0; i < numberOfWords; i++) {
+			if (i > 0) {
+				buffer.append(" ");
+			}
+			buffer.append(getRandomText(4 + (int) (Math.random() * 6)));
+		}
+		return buffer.toString();
 	}
 
 	public static String getRandomText(int stringLength) {
