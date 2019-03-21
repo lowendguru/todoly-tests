@@ -2,7 +2,6 @@ package data;
 
 import java.util.HashMap;
 
-
 @SuppressWarnings("serial")
 public class UserBody extends HashMap<String, String> {
 
@@ -20,15 +19,33 @@ public class UserBody extends HashMap<String, String> {
 		this.put("Password", password);
 		return this;
 	}
-	
+
+	public UserBody withAddItemMoreExpanded(String addItemMoreExpanded) {
+		this.put("AddItemMoreExpanded", addItemMoreExpanded);
+		return this;
+	}
+
+	public String getAddItemMoreExpanded() {
+		return get("AddItemMoreExpanded");
+	}
+
+	public UserBody withDefaultProjectId(String defaultProjectId) {
+		this.put("DefaultProjectId", defaultProjectId);
+		return this;
+	}
+
+	public String getDefaultProjectId() {
+		return get("DefaultProjectId");
+	}
+
 	public String getEmail() {
 		return get("Email");
 	}
-	
+
 	public String getFullName() {
 		return get("FullName");
 	}
-	
+
 	public String getPassword() {
 		return get("Password");
 	}

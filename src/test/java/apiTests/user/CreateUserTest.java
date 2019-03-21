@@ -3,6 +3,7 @@ package apiTests.user;
 import static io.restassured.RestAssured.given;
 
 import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -18,14 +19,14 @@ import utils.RandomValueGenerator;
 
 public class CreateUserTest extends BaseTest {
 
-	@BeforeTest(groups = { "user" })
+	@BeforeTest(groups = { "user", "wip" })
 	public void setUp() {
 		RestAssured.baseURI = BASE_URL;
 		RestAssured.basePath = USER_ENDPOINT + JSON_FORMAT;
 
 	}
 
-	@Test(groups = { "user" })
+	@Test(groups = { "user", "happyPath" })
 	public void createUserBasic() {
 
 		// create a body with mandatory fields and valid values
@@ -248,6 +249,89 @@ public class CreateUserTest extends BaseTest {
 				.body("ErrorMessage", IsEqual.equalTo(ERROR_MESSAGE_EMAIL_EXISTS),
 						"ErrorCode", IsEqual.equalTo(ERROR_CODE_EMAIL_EXISTS));
 
+	}
+
+	@Test(groups = { "user" })
+	public void createUserWithAddItemMoreExpanded() {
+
+		// create a body with mandatory fields and valid values
+		// including
+		UserBody body = new UserBody()
+				.withEmail(RandomValueGenerator.getRandomEmail())
+				.withFullName(RandomValueGenerator.getRandomSentence(2))
+				.withPassword(PASSWORD)
+				.withAddItemMoreExpanded("false");
+
+		given()
+				.log().all()
+				.contentType("application/json")
+				.body(body)
+				.when()
+				.post()
+				.then()
+				.log().all()
+				.assertThat()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("Email", IsEqual.equalTo(body.getEmail()),
+						"FullName", IsEqual.equalTo(body.getFullName()),
+						"Password", IsEqual.equalTo(null),
+						"IsProUser", IsEqual.equalTo(false),
+						"AddItemMoreExpanded", IsEqual.equalTo(false));
+	}
+
+	@Test(groups = { "user" })
+	public void createUserWithInvalidAddItemMoreExpanded() {
+
+		// create a body with mandatory fields and valid values
+		UserBody body = new UserBody()
+				.withEmail(RandomValueGenerator.getRandomEmail())
+				.withFullName(RandomValueGenerator.getRandomSentence(2))
+				.withPassword(PASSWORD)
+				.withAddItemMoreExpanded("asd");
+
+		given()
+				.log().all()
+				.contentType("application/json")
+				.body(body)
+				.when()
+				.post()
+				.then()
+				.log().all()
+				.assertThat()
+				// expecting errors to be handled, no 500 errors
+				.statusCode(200)
+				.contentType(ContentType.JSON);
+	}
+
+	@Test(groups = { "user" })
+	public void createUserWithDefaultProjectId() {
+
+		// create a body with mandatory fields and DefaultProjectId
+		UserBody body = new UserBody()
+				.withEmail(RandomValueGenerator.getRandomEmail())
+				.withFullName(RandomValueGenerator.getRandomSentence(2))
+				.withPassword(PASSWORD)
+				.withDefaultProjectId("0");
+
+		given()
+				.log().all()
+				.contentType("application/json")
+				.body(body)
+				.when()
+				.post()
+				.then()
+				.log().all()
+				.assertThat()
+				// expecting errors to be handled
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				// DefaultProjectId is expected to be auto-generated
+				.body("Email", IsEqual.equalTo(body.getEmail()),
+						"FullName", IsEqual.equalTo(body.getFullName()),
+						"Password", IsEqual.equalTo(null),
+						"IsProUser", IsEqual.equalTo(false),
+						"DefaultProjectId", IsNot.not(0));
 	}
 
 }
