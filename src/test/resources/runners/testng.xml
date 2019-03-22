@@ -10,17 +10,62 @@
 		</groups>
 
 		<classes>
-			<class name="apiTests.user.CreateUserTest">
+			<class name="apiTests.user.CreateUserTests">
 				<methods>
 					<!-- Currently failing -->
-					<exclude name="createUserWithInvalidAddItemMoreExpanded" />
-					<exclude name="createUserWithDefaultProjectId" />
+					<exclude
+						name="createUserWithInvalidAddItemMoreExpandedTest" />
+					<exclude name="createUserWithDefaultProjectIdTest" />
+					<exclude name="createUserInvalidPayloadTest" />
+
+				</methods>
+			</class>
+			<class name="apiTests.user.DeleteUserTests" />
+			<class name="apiTests.user.GetUserTests" />
+
+			<class name="apiTests.user.UpdateUserTests">
+				<methods>
+					<!-- Currently failing -->
+					<exclude name="updateInvalidEmailTest" />
+				</methods>
+
+			</class>
+		</classes>
+	</test>
+
+	<test name="Authentication Tests">
+		<groups>
+			<run>
+				<include name="authentication" />
+			</run>
+		</groups>
+
+		<classes>
+			<class name="apiTests.authentication.AuthenticationTests">
+				<methods>
+					<!-- Currently failing -->
+					<exclude name="isAuthenticatedValidTest" />
+					<exclude name="isAuthenticatedInvalidTest" />
+					<exclude name="deleteTokenTest" />
 
 				</methods>
 			</class>
 		</classes>
 	</test>
-	
-	
+
+	<test name="Project Tests">
+		<groups>
+			<run>
+				<include name="project" />
+			</run>
+		</groups>
+
+		<classes>
+			<class name="apiTests.project.GetAllProjectsTests" />
+			<class name="apiTests.project.GetProjectByIdTests" />
+
+
+		</classes>
+	</test>
 
 </suite>

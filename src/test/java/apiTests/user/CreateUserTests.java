@@ -4,7 +4,7 @@ import static io.restassured.RestAssured.given;
 
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import apiTests.common.BaseTest;
@@ -17,9 +17,9 @@ import utils.RandomValueGenerator;
  * Tests for the User endpoint
  */
 
-public class CreateUserTest extends BaseTest {
+public class CreateUserTests extends BaseTest {
 
-	@BeforeTest(groups = { "user", "wip" })
+	@BeforeClass(groups = { "user", "wip", "happyPath" })
 	public void setUp() {
 		RestAssured.baseURI = BASE_URL;
 		RestAssured.basePath = USER_ENDPOINT + JSON_FORMAT;
@@ -27,7 +27,7 @@ public class CreateUserTest extends BaseTest {
 	}
 
 	@Test(groups = { "user", "happyPath" })
-	public void createUserBasic() {
+	public void createUserBasicTest() {
 
 		// create a body with mandatory fields and valid values
 		UserBody body = new UserBody()
@@ -37,7 +37,7 @@ public class CreateUserTest extends BaseTest {
 
 		given()
 				.log().all()
-				.contentType("application/json")
+				.contentType(ContentType.JSON)
 				.body(body)
 				.when()
 				.post()
@@ -52,8 +52,26 @@ public class CreateUserTest extends BaseTest {
 						"IsProUser", IsEqual.equalTo(false));
 	}
 
+	@Test(groups = { "user", "happyPath" })
+	public void createUserInvalidPayloadTest() {
+
+		given()
+				.log().all()
+				.contentType(ContentType.JSON)
+				.body("<<")
+				.when()
+				.post()
+				.then()
+				.log().all()
+				.assertThat()
+				// expecting error handling, not 500 error
+				.statusCode(200)
+				.contentType(ContentType.JSON);
+
+	}
+
 	@Test(groups = { "user" })
-	public void createUserEmptyPassword() {
+	public void createUserEmptyPasswordTest() {
 
 		// create a body with empty password
 		UserBody body = new UserBody()
@@ -63,7 +81,7 @@ public class CreateUserTest extends BaseTest {
 
 		given()
 				.log().all()
-				.contentType("application/json")
+				.contentType(ContentType.JSON)
 				.body(body)
 				.when()
 				.post()
@@ -78,7 +96,7 @@ public class CreateUserTest extends BaseTest {
 	}
 
 	@Test(groups = { "user" })
-	public void createUserNoEmail() {
+	public void createUserNoEmailTest() {
 
 		// create a body with no email
 		UserBody body = new UserBody()
@@ -87,7 +105,7 @@ public class CreateUserTest extends BaseTest {
 
 		given()
 				.log().all()
-				.contentType("application/json")
+				.contentType(ContentType.JSON)
 				.body(body)
 				.when()
 				.post()
@@ -102,7 +120,7 @@ public class CreateUserTest extends BaseTest {
 	}
 
 	@Test(groups = { "user" })
-	public void createUserInvalidFormatEmail() {
+	public void createUserInvalidFormatEmailTest() {
 		// create a body with invalid email
 		UserBody body = new UserBody()
 				.withEmail("someInvalid Email@mail.com")
@@ -111,7 +129,7 @@ public class CreateUserTest extends BaseTest {
 
 		given()
 				.log().all()
-				.contentType("application/json")
+				.contentType(ContentType.JSON)
 				.body(body)
 				.when()
 				.post()
@@ -126,7 +144,7 @@ public class CreateUserTest extends BaseTest {
 	}
 
 	@Test(groups = { "user" })
-	public void createUserEmptyName() {
+	public void createUserEmptyNameTest() {
 		// create a body with empty name
 		UserBody body = new UserBody()
 				.withEmail(RandomValueGenerator.getRandomEmail())
@@ -135,7 +153,7 @@ public class CreateUserTest extends BaseTest {
 
 		given()
 				.log().all()
-				.contentType("application/json")
+				.contentType(ContentType.JSON)
 				.body(body)
 				.when()
 				.post()
@@ -150,7 +168,7 @@ public class CreateUserTest extends BaseTest {
 	}
 
 	@Test(groups = { "user" })
-	public void createUserMinimumName() {
+	public void createUserMinimumNameTest() {
 		// create a body with minimum allowed length for FullName
 		UserBody body = new UserBody()
 				.withEmail(RandomValueGenerator.getRandomEmail())
@@ -159,7 +177,7 @@ public class CreateUserTest extends BaseTest {
 
 		given()
 				.log().all()
-				.contentType("application/json")
+				.contentType(ContentType.JSON)
 				.body(body)
 				.when()
 				.post()
@@ -174,7 +192,7 @@ public class CreateUserTest extends BaseTest {
 	}
 
 	@Test(groups = { "user" })
-	public void createUserMaximumName() {
+	public void createUserMaximumNameTest() {
 
 		// create a body with maximum allowed length for FullName
 		UserBody body = new UserBody()
@@ -184,7 +202,7 @@ public class CreateUserTest extends BaseTest {
 
 		given()
 				.log().all()
-				.contentType("application/json")
+				.contentType(ContentType.JSON)
 				.body(body)
 				.when()
 				.post()
@@ -199,7 +217,7 @@ public class CreateUserTest extends BaseTest {
 	}
 
 	@Test(groups = { "user" })
-	public void createUserExceedMaximumName() {
+	public void createUserExceedMaximumNameTest() {
 
 		// create a body exceeding the allowed length for FullName
 		UserBody body = new UserBody()
@@ -209,7 +227,7 @@ public class CreateUserTest extends BaseTest {
 
 		given()
 				.log().all()
-				.contentType("application/json")
+				.contentType(ContentType.JSON)
 				.body(body)
 				.when()
 				.post()
@@ -223,7 +241,7 @@ public class CreateUserTest extends BaseTest {
 	}
 
 	@Test(groups = { "user" })
-	public void createUserExistingEmail() {
+	public void createUserExistingEmailTest() {
 
 		// create a body with mandatory fields
 		UserBody body = new UserBody()
@@ -237,7 +255,7 @@ public class CreateUserTest extends BaseTest {
 		// Try to create user with same email
 		given()
 				.log().all()
-				.contentType("application/json")
+				.contentType(ContentType.JSON)
 				.body(body)
 				.when()
 				.post()
@@ -252,7 +270,7 @@ public class CreateUserTest extends BaseTest {
 	}
 
 	@Test(groups = { "user" })
-	public void createUserWithAddItemMoreExpanded() {
+	public void createUserWithAddItemMoreExpandedTest() {
 
 		// create a body with mandatory fields and valid values
 		// including
@@ -264,7 +282,7 @@ public class CreateUserTest extends BaseTest {
 
 		given()
 				.log().all()
-				.contentType("application/json")
+				.contentType(ContentType.JSON)
 				.body(body)
 				.when()
 				.post()
@@ -281,7 +299,7 @@ public class CreateUserTest extends BaseTest {
 	}
 
 	@Test(groups = { "user" })
-	public void createUserWithInvalidAddItemMoreExpanded() {
+	public void createUserWithInvalidAddItemMoreExpandedTest() {
 
 		// create a body with mandatory fields and valid values
 		UserBody body = new UserBody()
@@ -292,7 +310,7 @@ public class CreateUserTest extends BaseTest {
 
 		given()
 				.log().all()
-				.contentType("application/json")
+				.contentType(ContentType.JSON)
 				.body(body)
 				.when()
 				.post()
@@ -305,7 +323,7 @@ public class CreateUserTest extends BaseTest {
 	}
 
 	@Test(groups = { "user" })
-	public void createUserWithDefaultProjectId() {
+	public void createUserWithDefaultProjectIdTest() {
 
 		// create a body with mandatory fields and DefaultProjectId
 		UserBody body = new UserBody()
@@ -316,7 +334,7 @@ public class CreateUserTest extends BaseTest {
 
 		given()
 				.log().all()
-				.contentType("application/json")
+				.contentType(ContentType.JSON)
 				.body(body)
 				.when()
 				.post()
