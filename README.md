@@ -6,7 +6,8 @@ The goal of this project is to demonstrate a test approach for API test automati
 See the /docs folder to find more detailed documents including:
 - Test plan
 - Defects report 
-- Evidence of defects and of suite execution under /docs/evidence
+- Evidence of defects is in /docs/evidence
+- Video evidence of the test suite execution is in /docs/evidence
 
 # Automated Test Suite
 
