@@ -364,7 +364,7 @@
 					"basic": [
 						{
 							"key": "username",
-							"value": "test_user_1@mail.com",
+							"value": "user05@mail.com",
 							"type": "string"
 						},
 						{
