@@ -6,6 +6,275 @@
 	},
 	"item": [
 		{
+			"name": "UserA",
+			"item": [
+				{
+					"name": "User - Create Basic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8dbe7e5c-0915-4645-8594-90b4777f3dfe",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"<FullName>Foo Bar</FullName>\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<UserObject>\n    <Email>{{$guid}}@mail.com</Email>\n    <FullName>Foo Bar</FullName>\n    <Password>testpass</Password>\n</UserObject>"
+						},
+						"url": {
+							"raw": "{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}",
+							"host": [
+								"{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}"
+							]
+						},
+						"description": "Create user"
+					},
+					"response": []
+				},
+				{
+					"name": "Projects - All - basic auth valid credentials",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "testpass",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "test_user_1@mail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://todo.ly/api/projects.xml",
+							"protocol": "https",
+							"host": [
+								"todo",
+								"ly"
+							],
+							"path": [
+								"api",
+								"projects.xml"
+							]
+						},
+						"description": "Get projects"
+					},
+					"response": []
+				},
+				{
+					"name": "Project - by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "e5eb4bfd237c4d3fa779074c727d3e42",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://todo.ly/api/projects/3779831.xml",
+							"protocol": "https",
+							"host": [
+								"todo",
+								"ly"
+							],
+							"path": [
+								"api",
+								"projects",
+								"3779831.xml"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserB",
+			"item": [
+				{
+					"name": "User - Create Basic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8dbe7e5c-0915-4645-8594-90b4777f3dfe",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"<FullName>Foo Bar</FullName>\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<UserObject>\n    <Email>{{$guid}}@mail.com</Email>\n    <FullName>Foo Bar</FullName>\n    <Password>testpass</Password>\n</UserObject>"
+						},
+						"url": {
+							"raw": "{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}",
+							"host": [
+								"{{HOST}}{{USER_ENDPOINT}}{{XML_FORMAT}}"
+							]
+						},
+						"description": "Create user"
+					},
+					"response": []
+				},
+				{
+					"name": "Projects - All - basic auth valid credentials",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "testpass",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "test_user_1@mail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://todo.ly/api/projects.xml",
+							"protocol": "https",
+							"host": [
+								"todo",
+								"ly"
+							],
+							"path": [
+								"api",
+								"projects.xml"
+							]
+						},
+						"description": "Get projects"
+					},
+					"response": []
+				},
+				{
+					"name": "Project - by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "e5eb4bfd237c4d3fa779074c727d3e42",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://todo.ly/api/projects/3779831.xml",
+							"protocol": "https",
+							"host": [
+								"todo",
+								"ly"
+							],
+							"path": [
+								"api",
+								"projects",
+								"3779831.xml"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project - by id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "e5eb4bfd237c4d3fa779074c727d3e42"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://todo.ly/api/projects/3779831.xml",
+							"protocol": "https",
+							"host": [
+								"todo",
+								"ly"
+							],
+							"path": [
+								"api",
+								"projects",
+								"3779831.xml"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "User - Create Basic",
 			"event": [
 				{
