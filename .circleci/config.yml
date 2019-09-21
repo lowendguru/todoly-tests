@@ -5,7 +5,5 @@
        - image: circleci/openjdk:8-jdk
 
       steps:
-      - checkout
-      - run: 
-            name: Run tests
-            command: mvn clean test
+       - checkout
+       - run: mvn clean test
