@@ -64,6 +64,10 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.20.1</version>
 					<configuration>
+						<!-- CircleCI build workaround -->
+						<reuseForks>true</reuseForks>
+						<useSystemClassLoader>false</useSystemClassLoader>
+						
 						<suiteXmlFiles>
 							<suiteXmlFile>src/test/resources/runners/testng.xml</suiteXmlFile>
 						</suiteXmlFiles>
