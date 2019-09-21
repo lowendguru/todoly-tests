@@ -5,11 +5,17 @@ jobs:
     - image: circleci/openjdk:8-jdk
     steps:
     - checkout
+    
+    - restore_cache:
+        key: todoly-tests-{{ checksum "pom.xml" }}
+    
+    
     - run: mvn dependency:go-offline
       
     - save_cache:
         paths:
           - ~/.m2
+        key: todoly-tests-{{ checksum "pom.xml" }}
           
     - run:
         name: Run tests
