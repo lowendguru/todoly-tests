@@ -5,6 +5,15 @@ jobs:
     - image: circleci/openjdk:8-jdk
     steps:
     - checkout
+    - run: mvn dependency:go-offline
+      
+    - save_cache:
+        paths:
+          - ~/.m2
+          
     - run:
         name: Run tests
         command: mvn clean test
+        
+    - store_test_results:
+        path: target/surefire-reports
