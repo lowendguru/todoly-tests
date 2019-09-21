@@ -1,9 +1,10 @@
- version: 2
- jobs:
-   build:
-     docker:
-       - image: circleci/openjdk:8-jdk
-
-      steps:
-       - checkout
-       - run: mvn clean test
+version: 2
+jobs:
+  build:
+    docker:
+    - image: circleci/openjdk:8-jdk
+    steps:
+    - checkout
+    - run:
+        name: Run tests
+        command: mvn clean test
