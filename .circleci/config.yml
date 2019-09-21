@@ -2,7 +2,7 @@
  jobs:
    build:
      docker:
-       - image: circleci/ruby:2.4.1
+       - image: circleci/openjdk:8-jdk
      steps:
        - checkout
-       - run: echo "A first hello"
+       - run: $mvn clean test
