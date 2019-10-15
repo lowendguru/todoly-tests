@@ -78,9 +78,9 @@
 							<include>**/*Test.java</include>
 							<include>**/*TestCase.java</include>
 						</includes>
-						<!-- Saved in CI
+					
 						<reportsDirectory>./test-output/${timestamp}</reportsDirectory>
-						 -->
+					
 						<parallel>methods</parallel>
 						<threadCount>1</threadCount> <!-- Number of tests to run in parallel. -->
 					</configuration>
